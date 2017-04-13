@@ -1,7 +1,6 @@
 package factory;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /*
  * This <topsis> created by : 
@@ -24,9 +23,9 @@ public abstract class Alternative<AC extends AccumulatorContainer, WC extends We
 
     public abstract void getLoss(@NotNull PC container);
 
-    public abstract void calculateProfitDistance(@Nullable PC container);
+    public abstract void calculateProfitDistance(@NotNull PC container);
 
-    public abstract void calculateLossDistance(@Nullable PC container);
+    public abstract void calculateLossDistance(@NotNull PC container);
 
     public abstract void calculatePreferences();
 }
