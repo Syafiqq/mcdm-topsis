@@ -15,7 +15,7 @@ public abstract class Criterion<A extends Accumulator, W extends Weight, P exten
 
     public abstract void calculate(@NotNull A accumulator);
 
-    public abstract void normalize(@NotNull W accumulator);
+    public abstract void normalize(@NotNull W weight);
 
     public abstract void searchProfit(@NotNull P profit);
 
