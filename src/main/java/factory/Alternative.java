@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * Email        : syafiq.rezpector@gmail.com
  * Github       : syafiqq
  */
-public abstract class Alternative<AC extends AccumulatorContainer, WC extends WeightContainer, PC extends ProfitContainer> implements Comparable<Alternative<AC, WC, PC>>
+public abstract class Alternative<AC extends AccumulatorContainer, WC extends WeightContainer, PC extends ProfitContainer> implements Comparable<Alternative>
 {
     public abstract void collectData(@NotNull AC container);
 
@@ -17,7 +17,7 @@ public abstract class Alternative<AC extends AccumulatorContainer, WC extends We
 
     public abstract void calculateWeightedDecisionMatrix(@NotNull WC container);
 
-    public abstract void collectWeightedDecisionMatrix(@NotNull PC container);
+    public abstract PC adaptWeightedDecisionMatrix();
 
     public abstract void getProfit(@NotNull PC container);
 
