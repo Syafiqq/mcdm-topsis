@@ -1,5 +1,6 @@
 package factory;
 
+import factory.interfaces.Compressable;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +34,15 @@ public class TOPSIS
             for(@NotNull final Alternative alternative : this.alternatives)
             {
                 alternative.collectData(this.decisionMatrixAccumulator);
+            }
+            if(this.decisionMatrixAccumulator instanceof Compressable)
+            {
+                ((Compressable) this.decisionMatrixAccumulator).compress();
+            }
+            else
+            {
+                System.err.println("Decision Matrix Accumulator must implement compress");
+                System.exit(0);
             }
         }
         else
