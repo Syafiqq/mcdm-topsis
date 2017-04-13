@@ -1,2 +1,4 @@
 rootProject.name = 'topsis'
+include 'case'
+findProject(':case')?.name = 'topsis.case'
 
