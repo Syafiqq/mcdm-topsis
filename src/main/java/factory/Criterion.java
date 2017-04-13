@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class Criterion<A extends Accumulator, W extends Weight, P extends Profit>
 {
+    public abstract void collect(@NotNull A accumulator);
+
     public abstract void calculate(@NotNull A accumulator);
 
     public abstract void normalize(@NotNull W accumulator);
