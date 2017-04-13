@@ -62,8 +62,8 @@ public class TOPSIS
                 alternative.calculateDecisionMatrix(this.decisionMatrixAccumulator);
                 alternative.calculateWeightedDecisionMatrix(this.weight);
             }
-            this.alternatives.get(0).collectWeightedDecisionMatrix(this.profit);
-            this.alternatives.get(0).collectWeightedDecisionMatrix(this.loss);
+            this.profit = this.alternatives.get(0).adaptWeightedDecisionMatrix();
+            this.loss = this.alternatives.get(0).adaptWeightedDecisionMatrix();
             for(@NotNull final Alternative alternative : this.alternatives)
             {
                 alternative.getProfit(this.profit);
