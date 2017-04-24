@@ -27,88 +27,64 @@ public class TOPSIS
         this.alternatives = new LinkedList<>();
     }
 
-    public void compile()
-    {
-        if(alternatives.size() > 0)
-        {
-            for(@NotNull final Alternative alternative : this.alternatives)
-            {
-                alternative.collectData(this.decisionMatrixAccumulator);
-            }
-            if(this.decisionMatrixAccumulator instanceof Compressable)
-            {
-                ((Compressable) this.decisionMatrixAccumulator).compress();
-            }
-            else
-            {
-                System.err.println("Decision Matrix Accumulator must implement compress");
-                System.exit(0);
-            }
-        }
-        else
-        {
-            System.err.println("At least one alternative exists");
-            System.exit(0);
-        }
-
-    }
-
-    public void calculate()
-    {
-        if(alternatives.size() > 0)
-        {
-            for(@NotNull final Alternative alternative : this.alternatives)
-            {
-                alternative.calculateDecisionMatrix(this.decisionMatrixAccumulator);
-                alternative.calculateWeightedDecisionMatrix(this.weight);
-            }
-            this.profit = this.alternatives.get(0).adaptWeightedDecisionMatrix();
-            this.loss = this.alternatives.get(0).adaptWeightedDecisionMatrix();
-            for(@NotNull final Alternative alternative : this.alternatives)
-            {
-                alternative.getProfit(this.profit);
-                alternative.getLoss(this.loss);
-            }
-            for(@NotNull final Alternative alternative : this.alternatives)
-            {
-                alternative.calculateProfitDistance(this.profit);
-                alternative.calculateLossDistance(this.loss);
-            }
-        }
-        else
-        {
-            System.err.println("At least one alternative exists");
-            System.exit(0);
-        }
-    }
-
-    public void ranking()
-    {
-        if(this.alternatives.size() > 0)
-        {
-            for(@NotNull final Alternative alternative : this.alternatives)
-            {
-                alternative.calculatePreferences();
-            }
-        }
-        else
-        {
-            System.err.println("At least one alternative exists");
-            System.exit(0);
-        }
-    }
-
-    public void sort()
-    {
-        this.alternatives.sort(Comparator.naturalOrder());
-    }
-
     public void process()
     {
-        this.compile();
-        this.calculate();
-        this.ranking();
-        this.sort();
+        //===Compile===
+        if(this.alternatives.size() <= 0)
+        {
+            System.err.println("At least one alternative exists");
+            System.exit(0);
+        }
+
+        if(!(this.decisionMatrixAccumulator instanceof Compressable))
+        {
+            System.err.println("Decision Matrix Accumulator must implement compressable");
+            System.exit(0);
+        }
+
+        if(this.weight == null)
+        {
+            System.err.println("Weight Container must be initialized");
+            System.exit(0);
+        }
+
+        //===Collecting Data===
+        this.alternatives.forEach(alternative -> alternative.collectData(this.decisionMatrixAccumulator));
+        ((Compressable) this.decisionMatrixAccumulator).compress();
+
+        //===Calculate===
+        this.alternatives.forEach(alternative ->
+        {
+            alternative.calculateDecisionMatrix(this.decisionMatrixAccumulator);
+            alternative.calculateWeightedDecisionMatrix(this.weight);
+        });
+
+        this.profit = this.alternatives.get(0).adaptWeightedDecisionMatrix();
+        this.loss = this.alternatives.get(0).adaptWeightedDecisionMatrix();
+
+        if((this.profit == null) || (this.loss == null))
+        {
+            System.err.println("Profit and Loss must be implemented");
+            System.exit(0);
+        }
+
+        this.alternatives.forEach(alternative ->
+        {
+            alternative.getProfit(this.profit);
+            alternative.getLoss(this.loss);
+        });
+
+        this.alternatives.forEach(alternative ->
+        {
+            alternative.calculateProfitDistance(this.profit);
+            alternative.calculateLossDistance(this.loss);
+        });
+
+        //===Ranking===
+        this.alternatives.forEach(Alternative::calculatePreferences);
+
+        //===Sort===
+        this.alternatives.sort(Comparator.naturalOrder());
     }
 
     public Alternative getBestAlternative()
