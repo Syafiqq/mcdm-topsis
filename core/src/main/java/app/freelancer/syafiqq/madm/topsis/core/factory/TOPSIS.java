@@ -29,6 +29,15 @@ public class TOPSIS
 
     public void process()
     {
+        this.compile();
+        this.collectData();
+        this.calculate();
+        this.ranking();
+        this.sort();
+    }
+
+    private void compile()
+    {
         //===Compile===
         if(this.alternatives.size() <= 0)
         {
@@ -47,11 +56,17 @@ public class TOPSIS
             System.err.println("Weight Container must be initialized");
             System.exit(0);
         }
+    }
 
+    private void collectData()
+    {
         //===Collecting Data===
         this.alternatives.forEach(alternative -> alternative.collectData(this.decisionMatrixAccumulator));
         ((Compressable) this.decisionMatrixAccumulator).compress();
+    }
 
+    private void calculate()
+    {
         //===Calculate===
         this.alternatives.forEach(alternative ->
         {
@@ -79,10 +94,16 @@ public class TOPSIS
             alternative.calculateProfitDistance(this.profit);
             alternative.calculateLossDistance(this.loss);
         });
+    }
 
+    private void ranking()
+    {
         //===Ranking===
         this.alternatives.forEach(Alternative::calculatePreferences);
+    }
 
+    private void sort()
+    {
         //===Sort===
         this.alternatives.sort(Comparator.naturalOrder());
     }
