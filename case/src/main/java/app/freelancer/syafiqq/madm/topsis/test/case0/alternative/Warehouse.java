@@ -1,6 +1,9 @@
 package app.freelancer.syafiqq.madm.topsis.test.case0.alternative;
 
+import app.freelancer.syafiqq.madm.topsis.core.factory.AccumulatorContainer;
 import app.freelancer.syafiqq.madm.topsis.core.factory.Alternative;
+import app.freelancer.syafiqq.madm.topsis.core.factory.ProfitContainer;
+import app.freelancer.syafiqq.madm.topsis.core.factory.WeightContainer;
 import app.freelancer.syafiqq.madm.topsis.test.case0.accumulator.container.ContinuousAccumulatorContainer;
 import app.freelancer.syafiqq.madm.topsis.test.case0.ciretrion.FactoryDistance;
 import app.freelancer.syafiqq.madm.topsis.test.case0.ciretrion.MarketDistance;
@@ -22,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
  * Email        : syafiq.rezpector@gmail.com
  * Github       : syafiqq
  */
-public class Warehouse extends Alternative<ContinuousAccumulatorContainer, ContinuousWeightContainer, ContinuousProfitContainer>
+public class Warehouse extends Alternative
 {
     @NotNull private Identity          properties;
     @NotNull private MarketDistance    marketDistance;
@@ -42,31 +45,34 @@ public class Warehouse extends Alternative<ContinuousAccumulatorContainer, Conti
         this.soilCost = soilCost;
     }
 
-    @Override public void collectData(@NotNull ContinuousAccumulatorContainer container)
+    @Override public void collectData(@NotNull AccumulatorContainer container)
     {
-        this.marketDistance.collect(container.getMarketDistance());
-        this.socialDensity.collect(container.getSocialDensity());
-        this.factoryDistance.collect(container.getFactoryDistance());
-        this.warehouseDistance.collect(container.getWarehouseDistance());
-        this.soilCost.collect(container.getSoilCost());
+        @NotNull final ContinuousAccumulatorContainer _container = (ContinuousAccumulatorContainer) container;
+        this.marketDistance.collect(_container.getMarketDistance());
+        this.socialDensity.collect(_container.getSocialDensity());
+        this.factoryDistance.collect(_container.getFactoryDistance());
+        this.warehouseDistance.collect(_container.getWarehouseDistance());
+        this.soilCost.collect(_container.getSoilCost());
     }
 
-    @Override public void calculateDecisionMatrix(@NotNull ContinuousAccumulatorContainer container)
+    @Override public void calculateDecisionMatrix(@NotNull AccumulatorContainer container)
     {
-        this.marketDistance.calculate(container.getMarketDistance());
-        this.socialDensity.calculate(container.getSocialDensity());
-        this.factoryDistance.calculate(container.getFactoryDistance());
-        this.warehouseDistance.calculate(container.getWarehouseDistance());
-        this.soilCost.calculate(container.getSoilCost());
+        @NotNull final ContinuousAccumulatorContainer _container = (ContinuousAccumulatorContainer) container;
+        this.marketDistance.calculate(_container.getMarketDistance());
+        this.socialDensity.calculate(_container.getSocialDensity());
+        this.factoryDistance.calculate(_container.getFactoryDistance());
+        this.warehouseDistance.calculate(_container.getWarehouseDistance());
+        this.soilCost.calculate(_container.getSoilCost());
     }
 
-    @Override public void calculateWeightedDecisionMatrix(@NotNull ContinuousWeightContainer container)
+    @Override public void calculateWeightedDecisionMatrix(@NotNull WeightContainer container)
     {
-        this.marketDistance.normalize(container.getMarketDistance());
-        this.socialDensity.normalize(container.getSocialDensity());
-        this.factoryDistance.normalize(container.getFactoryDistance());
-        this.warehouseDistance.normalize(container.getWarehouseDistance());
-        this.soilCost.normalize(container.getSoilCost());
+        @NotNull final ContinuousWeightContainer _container = (ContinuousWeightContainer) container;
+        this.marketDistance.normalize(_container.getMarketDistance());
+        this.socialDensity.normalize(_container.getSocialDensity());
+        this.factoryDistance.normalize(_container.getFactoryDistance());
+        this.warehouseDistance.normalize(_container.getWarehouseDistance());
+        this.soilCost.normalize(_container.getSoilCost());
     }
 
     @Override public ContinuousProfitContainer adaptWeightedDecisionMatrix()
@@ -80,40 +86,44 @@ public class Warehouse extends Alternative<ContinuousAccumulatorContainer, Conti
         );
     }
 
-    @Override public void getProfit(@NotNull ContinuousProfitContainer container)
+    @Override public void getProfit(@NotNull ProfitContainer container)
     {
-        this.marketDistance.searchProfit(container.getMarketDistance());
-        this.socialDensity.searchProfit(container.getSocialDensity());
-        this.factoryDistance.searchProfit(container.getFactoryDistance());
-        this.warehouseDistance.searchProfit(container.getWarehouseDistance());
-        this.soilCost.searchProfit(container.getSoilCost());
+        @NotNull final ContinuousProfitContainer _container = (ContinuousProfitContainer) container;
+        this.marketDistance.searchProfit(_container.getMarketDistance());
+        this.socialDensity.searchProfit(_container.getSocialDensity());
+        this.factoryDistance.searchProfit(_container.getFactoryDistance());
+        this.warehouseDistance.searchProfit(_container.getWarehouseDistance());
+        this.soilCost.searchProfit(_container.getSoilCost());
     }
 
-    @Override public void getLoss(@NotNull ContinuousProfitContainer container)
+    @Override public void getLoss(@NotNull ProfitContainer container)
     {
-        this.marketDistance.searchLoss(container.getMarketDistance());
-        this.socialDensity.searchLoss(container.getSocialDensity());
-        this.factoryDistance.searchLoss(container.getFactoryDistance());
-        this.warehouseDistance.searchLoss(container.getWarehouseDistance());
-        this.soilCost.searchLoss(container.getSoilCost());
+        @NotNull final ContinuousProfitContainer _container = (ContinuousProfitContainer) container;
+        this.marketDistance.searchLoss(_container.getMarketDistance());
+        this.socialDensity.searchLoss(_container.getSocialDensity());
+        this.factoryDistance.searchLoss(_container.getFactoryDistance());
+        this.warehouseDistance.searchLoss(_container.getWarehouseDistance());
+        this.soilCost.searchLoss(_container.getSoilCost());
     }
 
-    @Override public void calculateProfitDistance(@NotNull ContinuousProfitContainer container)
+    @Override public void calculateProfitDistance(@NotNull ProfitContainer container)
     {
-        this.marketDistance.profitDistance(container.getMarketDistance());
-        this.socialDensity.profitDistance(container.getSocialDensity());
-        this.factoryDistance.profitDistance(container.getFactoryDistance());
-        this.warehouseDistance.profitDistance(container.getWarehouseDistance());
-        this.soilCost.profitDistance(container.getSoilCost());
+        @NotNull final ContinuousProfitContainer _container = (ContinuousProfitContainer) container;
+        this.marketDistance.profitDistance(_container.getMarketDistance());
+        this.socialDensity.profitDistance(_container.getSocialDensity());
+        this.factoryDistance.profitDistance(_container.getFactoryDistance());
+        this.warehouseDistance.profitDistance(_container.getWarehouseDistance());
+        this.soilCost.profitDistance(_container.getSoilCost());
     }
 
-    @Override public void calculateLossDistance(@NotNull ContinuousProfitContainer container)
+    @Override public void calculateLossDistance(@NotNull ProfitContainer container)
     {
-        this.marketDistance.lossDistance(container.getMarketDistance());
-        this.socialDensity.lossDistance(container.getSocialDensity());
-        this.factoryDistance.lossDistance(container.getFactoryDistance());
-        this.warehouseDistance.lossDistance(container.getWarehouseDistance());
-        this.soilCost.lossDistance(container.getSoilCost());
+        @NotNull final ContinuousProfitContainer _container = (ContinuousProfitContainer) container;
+        this.marketDistance.lossDistance(_container.getMarketDistance());
+        this.socialDensity.lossDistance(_container.getSocialDensity());
+        this.factoryDistance.lossDistance(_container.getFactoryDistance());
+        this.warehouseDistance.lossDistance(_container.getWarehouseDistance());
+        this.soilCost.lossDistance(_container.getSoilCost());
     }
 
     @Override public void calculatePreferences()

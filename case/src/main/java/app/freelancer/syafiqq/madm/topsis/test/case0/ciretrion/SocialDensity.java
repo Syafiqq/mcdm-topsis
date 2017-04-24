@@ -1,6 +1,9 @@
 package app.freelancer.syafiqq.madm.topsis.test.case0.ciretrion;
 
+import app.freelancer.syafiqq.madm.topsis.core.factory.Accumulator;
 import app.freelancer.syafiqq.madm.topsis.core.factory.Criterion;
+import app.freelancer.syafiqq.madm.topsis.core.factory.Profit;
+import app.freelancer.syafiqq.madm.topsis.core.factory.Weight;
 import app.freelancer.syafiqq.madm.topsis.test.case0.CriterionType;
 import app.freelancer.syafiqq.madm.topsis.test.case0.accumulator.DoubleAccumulator;
 import app.freelancer.syafiqq.madm.topsis.test.case0.profit.DoubleProfit;
@@ -16,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
  * Email        : syafiq.rezpector@gmail.com
  * Github       : syafiqq
  */
-public class SocialDensity extends Criterion<DoubleAccumulator, DoubleWeight, DoubleProfit>
+public class SocialDensity extends Criterion
 {
     private final static CriterionType TYPE = CriterionType.BENEFIT;
 
@@ -33,64 +36,67 @@ public class SocialDensity extends Criterion<DoubleAccumulator, DoubleWeight, Do
         this.setLossDistance(0.0);
     }
 
-    @Override public void collect(@NotNull DoubleAccumulator accumulator)
+    @Override public void collect(@NotNull Accumulator accumulator)
     {
-        final double rootV = FastMath.pow(this.getValue(), 2.0);
-        accumulator.setValue(accumulator.getValue() + rootV);
+        @NotNull DoubleAccumulator _accumulator = (DoubleAccumulator) accumulator;
+        final double               rootV        = FastMath.pow(this.getValue(), 2.0);
+        _accumulator.setValue(_accumulator.getValue() + rootV);
     }
 
-    @Override public void calculate(@NotNull DoubleAccumulator accumulator)
+    @Override public void calculate(@NotNull Accumulator accumulator)
     {
-        this.setNormalized(this.getValue() / accumulator.getValue());
+        this.setNormalized(this.getValue() / ((DoubleAccumulator) accumulator).getValue());
     }
 
-    @Override public void normalize(@NotNull DoubleWeight weight)
+    @Override public void normalize(@NotNull Weight weight)
     {
-        this.setNormalized(this.getNormalized() * weight.getValue());
+        this.setNormalized(this.getNormalized() * ((DoubleWeight) weight).getValue());
     }
 
-    @Override public void searchProfit(@NotNull DoubleProfit profit)
+    @Override public void searchProfit(@NotNull Profit profit)
     {
+        @NotNull final DoubleProfit _profit = (DoubleProfit) profit;
         switch(SocialDensity.TYPE)
         {
             case BENEFIT:
             {
-                this.assignMax(profit);
+                this.assignMax(_profit);
             }
             break;
             case COST:
             {
-                this.assignMin(profit);
+                this.assignMin(_profit);
             }
             break;
         }
     }
 
-    @Override public void searchLoss(@NotNull DoubleProfit profit)
+    @Override public void searchLoss(@NotNull Profit profit)
     {
+        @NotNull final DoubleProfit _profit = (DoubleProfit) profit;
         switch(SocialDensity.TYPE)
         {
             case BENEFIT:
             {
-                this.assignMin(profit);
+                this.assignMin(_profit);
             }
             break;
             case COST:
             {
-                this.assignMax(profit);
+                this.assignMax(_profit);
             }
             break;
         }
     }
 
-    @Override public void profitDistance(@NotNull DoubleProfit profit)
+    @Override public void profitDistance(@NotNull Profit profit)
     {
-        this.setProfitDistance(FastMath.pow(profit.getValue() - this.getNormalized(), 2.0));
+        this.setProfitDistance(FastMath.pow(((DoubleProfit) profit).getValue() - this.getNormalized(), 2.0));
     }
 
-    @Override public void lossDistance(@NotNull DoubleProfit profit)
+    @Override public void lossDistance(@NotNull Profit profit)
     {
-        this.setLossDistance(FastMath.pow(this.getNormalized() - profit.getValue(), 2.0));
+        this.setLossDistance(FastMath.pow(this.getNormalized() - ((DoubleProfit) profit).getValue(), 2.0));
     }
 
     private void assignMin(@NotNull DoubleProfit profit)
