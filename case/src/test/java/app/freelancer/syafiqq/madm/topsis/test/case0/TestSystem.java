@@ -25,19 +25,16 @@ public class TestSystem
         @NotNull ContinuousAccumulatorContainer cac = FactoryHelper.createAccumulatorContainer(0.0, 0.0, 0.0, 0.0, 0.0);
         @NotNull ContinuousWeightContainer      w   = FactoryHelper.createWeightContainer(5, 3, 4, 4, 2);
 
-        TOPSIS wp = new TOPSIS();
-        wp.addAlternative(a1);
-        wp.addAlternative(a2);
-        wp.addAlternative(a3);
+        TOPSIS topsis = new TOPSIS();
+        topsis.addAlternative(a1);
+        topsis.addAlternative(a2);
+        topsis.addAlternative(a3);
 
-        wp.setDecisionMatrixAccumulator(cac);
-        wp.setWeight(w);
+        topsis.setDecisionMatrixAccumulator(cac);
+        topsis.setWeight(w);
 
-        wp.compile();
-        wp.calculate();
-        wp.ranking();
-        wp.sort();
+        topsis.process();
 
-        System.out.println(wp.getBestAlternative());
+        System.out.println(topsis.getBestAlternative());
     }
 }
