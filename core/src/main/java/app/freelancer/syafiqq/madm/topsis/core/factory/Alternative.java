@@ -9,23 +9,23 @@ import org.jetbrains.annotations.NotNull;
  * Email        : syafiq.rezpector@gmail.com
  * Github       : syafiqq
  */
-public abstract class Alternative<AC extends AccumulatorContainer, WC extends WeightContainer, PC extends ProfitContainer> implements Comparable<Alternative>
+public abstract class Alternative implements Comparable<Alternative>
 {
-    public abstract void collectData(@NotNull AC container);
+    public abstract void collectData(@NotNull AccumulatorContainer container);
 
-    public abstract void calculateDecisionMatrix(@NotNull AC container);
+    public abstract void calculateDecisionMatrix(@NotNull AccumulatorContainer container);
 
-    public abstract void calculateWeightedDecisionMatrix(@NotNull WC container);
+    public abstract void calculateWeightedDecisionMatrix(@NotNull WeightContainer container);
 
-    public abstract PC adaptWeightedDecisionMatrix();
+    public abstract ProfitContainer adaptWeightedDecisionMatrix();
 
-    public abstract void getProfit(@NotNull PC container);
+    public abstract void getProfit(@NotNull ProfitContainer container);
 
-    public abstract void getLoss(@NotNull PC container);
+    public abstract void getLoss(@NotNull ProfitContainer container);
 
-    public abstract void calculateProfitDistance(@NotNull PC container);
+    public abstract void calculateProfitDistance(@NotNull ProfitContainer container);
 
-    public abstract void calculateLossDistance(@NotNull PC container);
+    public abstract void calculateLossDistance(@NotNull ProfitContainer container);
 
     public abstract void calculatePreferences();
 }

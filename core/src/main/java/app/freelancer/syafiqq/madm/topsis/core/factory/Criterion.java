@@ -9,19 +9,19 @@ import org.jetbrains.annotations.NotNull;
  * Email        : syafiq.rezpector@gmail.com
  * Github       : syafiqq
  */
-public abstract class Criterion<A extends Accumulator, W extends Weight, P extends Profit>
+public abstract class Criterion
 {
-    public abstract void collect(@NotNull A accumulator);
+    public abstract void collect(@NotNull Accumulator accumulator);
 
-    public abstract void calculate(@NotNull A accumulator);
+    public abstract void calculate(@NotNull Accumulator accumulator);
 
-    public abstract void normalize(@NotNull W weight);
+    public abstract void normalize(@NotNull Weight weight);
 
-    public abstract void searchProfit(@NotNull P profit);
+    public abstract void searchProfit(@NotNull Profit profit);
 
-    public abstract void searchLoss(@NotNull P profit);
+    public abstract void searchLoss(@NotNull Profit profit);
 
-    public abstract void profitDistance(@NotNull P profit);
+    public abstract void profitDistance(@NotNull Profit profit);
 
-    public abstract void lossDistance(@NotNull P profit);
+    public abstract void lossDistance(@NotNull Profit profit);
 }
