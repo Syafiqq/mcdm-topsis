@@ -37,7 +37,7 @@ public class TOPSIS
         this.sort();
     }
 
-    private void compile()
+    public void compile()
     {
         if(this.alternatives.size() <= 0)
         {
@@ -58,7 +58,7 @@ public class TOPSIS
         }
     }
 
-    private void collectData()
+    public void collectData()
     {
         for(Alternative alternative : this.alternatives)
         {
@@ -67,7 +67,7 @@ public class TOPSIS
         ((Compressable) this.decisionMatrixAccumulator).compress();
     }
 
-    private void calculate()
+    public void calculate()
     {
         this.calculateDecisionMatrix();
         this.calculateWeightedDecisionMatrix();
@@ -75,7 +75,7 @@ public class TOPSIS
         this.collectProfitAndLossDistance();
     }
 
-    private void calculateDecisionMatrix()
+    public void calculateDecisionMatrix()
     {
         for(Alternative alternative2 : this.alternatives)
         {
@@ -83,7 +83,7 @@ public class TOPSIS
         }
     }
 
-    private void calculateWeightedDecisionMatrix()
+    public void calculateWeightedDecisionMatrix()
     {
         for(Alternative alternative2 : this.alternatives)
         {
@@ -91,7 +91,7 @@ public class TOPSIS
         }
     }
 
-    private void collectProfitAndLoss()
+    public void collectProfitAndLoss()
     {
         this.profit = this.alternatives.get(0).adaptWeightedDecisionMatrix();
         this.loss = this.alternatives.get(0).adaptWeightedDecisionMatrix();
@@ -109,7 +109,7 @@ public class TOPSIS
         }
     }
 
-    private void collectProfitAndLossDistance()
+    public void collectProfitAndLossDistance()
     {
         for(@NotNull final Alternative alternative : this.alternatives)
         {
@@ -118,7 +118,7 @@ public class TOPSIS
         }
     }
 
-    private void ranking()
+    public void ranking()
     {
         for(@NotNull final Alternative alternative : this.alternatives)
         {
@@ -126,7 +126,7 @@ public class TOPSIS
         }
     }
 
-    private void sort()
+    public void sort()
     {
         Collections.sort(this.alternatives, new Comparator<Alternative>()
         {
