@@ -1,6 +1,7 @@
 package app.freelancer.syafiqq.madm.topsis.core.factory;
 
 import app.freelancer.syafiqq.madm.topsis.core.factory.interfaces.Compressable;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,13 +33,11 @@ public class TOPSIS
         this.compile();
         this.collectData();
         this.calculate();
-        this.ranking();
         this.sort();
     }
 
     private void compile()
     {
-        //===Compile===
         if(this.alternatives.size() <= 0)
         {
             System.err.println("At least one alternative exists");
@@ -60,20 +59,40 @@ public class TOPSIS
 
     private void collectData()
     {
-        //===Collecting Data===
-        this.alternatives.forEach(alternative -> alternative.collectData(this.decisionMatrixAccumulator));
+        for(Alternative alternative : this.alternatives)
+        {
+            alternative.collectData(this.decisionMatrixAccumulator);
+        }
         ((Compressable) this.decisionMatrixAccumulator).compress();
     }
 
     private void calculate()
     {
-        //===Calculate===
-        this.alternatives.forEach(alternative ->
-        {
-            alternative.calculateDecisionMatrix(this.decisionMatrixAccumulator);
-            alternative.calculateWeightedDecisionMatrix(this.weight);
-        });
+        this.calculateDecisionMatrix();
+        this.calculateWeightedDecisionMatrix();
+        this.collectProfitAndLoss();
+        this.collectProfitAndLossDistance();
+        this.ranking();
+    }
 
+    private void calculateDecisionMatrix()
+    {
+        for(Alternative alternative2 : this.alternatives)
+        {
+            alternative2.calculateDecisionMatrix(this.decisionMatrixAccumulator);
+        }
+    }
+
+    private void calculateWeightedDecisionMatrix()
+    {
+        for(Alternative alternative2 : this.alternatives)
+        {
+            alternative2.calculateWeightedDecisionMatrix(this.weight);
+        }
+    }
+
+    private void collectProfitAndLoss()
+    {
         this.profit = this.alternatives.get(0).adaptWeightedDecisionMatrix();
         this.loss = this.alternatives.get(0).adaptWeightedDecisionMatrix();
 
@@ -83,29 +102,39 @@ public class TOPSIS
             System.exit(0);
         }
 
-        this.alternatives.forEach(alternative ->
+        for(@NotNull final Alternative alternative1 : this.alternatives)
         {
-            alternative.getProfit(this.profit);
-            alternative.getLoss(this.loss);
-        });
+            alternative1.getProfit(this.profit);
+            alternative1.getLoss(this.loss);
+        }
+    }
 
-        this.alternatives.forEach(alternative ->
+    private void collectProfitAndLossDistance()
+    {
+        for(@NotNull final Alternative alternative : this.alternatives)
         {
             alternative.calculateProfitDistance(this.profit);
             alternative.calculateLossDistance(this.loss);
-        });
+        }
     }
 
     private void ranking()
     {
-        //===Ranking===
-        this.alternatives.forEach(Alternative::calculatePreferences);
+        for(@NotNull final Alternative alternative : this.alternatives)
+        {
+            alternative.calculatePreferences();
+        }
     }
 
     private void sort()
     {
-        //===Sort===
-        this.alternatives.sort(Comparator.naturalOrder());
+        Collections.sort(this.alternatives, new Comparator<Alternative>()
+        {
+            @Override public int compare(Alternative o1, Alternative o2)
+            {
+                return o1.compareTo(o2);
+            }
+        });
     }
 
     public Alternative getBestAlternative()
