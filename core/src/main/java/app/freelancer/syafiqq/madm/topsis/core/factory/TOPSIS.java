@@ -33,6 +33,7 @@ public class TOPSIS
         this.compile();
         this.collectData();
         this.calculate();
+        this.ranking();
         this.sort();
     }
 
@@ -72,7 +73,6 @@ public class TOPSIS
         this.calculateWeightedDecisionMatrix();
         this.collectProfitAndLoss();
         this.collectProfitAndLossDistance();
-        this.ranking();
     }
 
     private void calculateDecisionMatrix()
